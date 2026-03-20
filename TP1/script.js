@@ -19,61 +19,115 @@ function applique(f, tab) {
 }
 
 console.log("Applique fact sur [1,2,3,4,5,6] :", applique(fact, [1, 2, 3, 4, 5, 6]));
-console.log("Applique anonyme (n+1) :", applique(function (n) { return (n + 1); }, [1, 2, 3, 4, 5, 6]));
+console.log("Applique anonyme (n+1) :", applique(function (n) { return n + 1; }, [1, 2, 3, 4, 5, 6]));
 
-// 3.2 & 3.3 - Dynamique et modèle complet
-let msgs = [
-    { "pseudo": "Système", "msg": "Bienvenue sur l'interface de messagerie !", "date": new Date().toLocaleString() },
-    { "pseudo": "Alice", "msg": "Le nouveau design est bien plus sympa.", "date": new Date().toLocaleString() },
-    { "pseudo": "Bob", "msg": "Je suis d'accord, c'est beaucoup plus moderne.", "date": new Date().toLocaleString() }
-];
+let serverBaseUrl = "http://localhost:5000";
 
-function update(data) {
-    const list = document.getElementById('message-list');
-    list.innerHTML = ''; // Efface la liste
+// Affichage des messages
+function update(messages) {
+    const list = document.getElementById("message-list");
+    list.innerHTML = "";
 
-    data.forEach(item => {
-        const li = document.createElement('li');
+    messages.forEach(function(item) {
+        const li = document.createElement("li");
+
+        const author = item.author || "Anonyme";
+        const text = item.text || "";
+        const date = item.date || "";
+
         li.innerHTML = `
             <div class="msg-header">
-                <strong>${item.pseudo}</strong>
-                <span class="date">${item.date}</span>
+                <strong>${author}</strong>
+                <span class="date">${date}</span>
             </div>
-            <div class="msg-content">${item.msg}</div>
+            <div class="msg-content">${text}</div>
         `;
         list.appendChild(li);
     });
 }
 
+function loadMessages() {
+    const inputUrl = document.getElementById("server-url");
+    if (inputUrl && inputUrl.value.trim() !== "") {
+        serverBaseUrl = inputUrl.value.trim();
+    }
+
+    fetch(serverBaseUrl + "/msg/getAll")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            update(data);
+        })
+        .catch(function(error) {
+            console.error("Erreur lors du chargement des messages :", error);
+            alert("Impossible de charger les messages. Vérifiez l'URL du micro-service.");
+        });
+}
+
+function postMessage() {
+    const pseudoInput = document.getElementById("pseudo-input");
+    const msgInput = document.getElementById("message-input");
+    const serverInput = document.getElementById("server-url");
+
+    if (serverInput.value.trim() !== "") {
+        serverBaseUrl = serverInput.value.trim();
+    }
+
+    const pseudo = pseudoInput.value.trim() || "Anonymous";
+    const message = msgInput.value.trim();
+
+    if (message === "") {
+        return;
+    }
+
+    const url =
+        serverBaseUrl +
+        "/msg/post/" +
+        encodeURIComponent(message) +
+        "?author=" +
+        encodeURIComponent(pseudo);
+
+    fetch(url)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.code === 1) {
+                msgInput.value = "";
+                loadMessages();
+            } else {
+                alert("Erreur lors de l'envoi du message.");
+            }
+        })
+        .catch(function(error) {
+            console.error("Erreur lors de l'envoi :", error);
+            alert("Impossible d'envoyer le message.");
+        });
+}
+
 // Initialisation
-document.addEventListener('DOMContentLoaded', () => {
-    update(msgs);
+document.addEventListener("DOMContentLoaded", function() {
+    const sendBtn = document.getElementById("send-button");
+    const updateBtn = document.getElementById("update-button");
+    const themeBtn = document.getElementById("toggle-theme");
+    const serverInput = document.getElementById("server-url");
 
-    const sendBtn = document.getElementById('send-button');
-    const updateBtn = document.getElementById('update-button');
-    const themeBtn = document.getElementById('toggle-theme');
+    serverInput.value = serverBaseUrl;
 
-    sendBtn.addEventListener('click', () => {
-        const pseudoInput = document.getElementById('pseudo-input');
-        const msgInput = document.getElementById('message-input');
-        
-        if (msgInput.value.trim() !== "") {
-            const newMsg = {
-                "pseudo": pseudoInput.value || "Anonyme",
-                "msg": msgInput.value,
-                "date": new Date().toLocaleString()
-            };
-            msgs.push(newMsg);
-            update(msgs);
-            msgInput.value = '';
-        }
+    sendBtn.addEventListener("click", function() {
+        postMessage();
     });
 
-    updateBtn.addEventListener('click', () => {
-        update(msgs);
+    updateBtn.addEventListener("click", function() {
+        loadMessages();
     });
 
-    themeBtn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+    themeBtn.addEventListener("click", function() {
+        document.body.classList.toggle("dark-mode");
     });
+
+    if (serverBaseUrl !== "") {
+        loadMessages();
+    }
 });

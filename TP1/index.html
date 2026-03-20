@@ -17,11 +17,20 @@
         <button id="toggle-theme">Changer de style</button>
       </section>
 
+      <section id="server-section">
+        <h2>Configuration du micro-service</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="server-url"
+            placeholder="URL du micro-service, ex: https://mon-serveur.repl.co"
+          >
+        </div>
+      </section>
+
       <section id="messages-section">
         <h2>Messages récents</h2>
-        <ul id="message-list">
-          <!-- Les messages seront chargés ici par JS -->
-        </ul>
+        <ul id="message-list"></ul>
       </section>
 
       <section id="post-section">

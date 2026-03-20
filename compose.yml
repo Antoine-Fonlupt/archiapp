@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  back:
+    build:
+      context: ./TP3
+      dockerfile: Dockerfile
+    container_name: tp3-back
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+
+  front:
+    image: node:20-alpine
+    container_name: tp1-front
+    working_dir: /app
+    volumes:
+      - ./TP1:/app:ro
+    command: sh -c "npx serve -s . -l 3000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - back
