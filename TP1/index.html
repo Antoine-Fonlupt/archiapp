@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Application de Messages</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <header>
+      <h1>Messagerie Instantanée</h1>
+    </header>
+
+    <main>
+      <section id="controls">
+        <button id="update-button">Mettre à jour</button>
+        <button id="toggle-theme">Changer de style</button>
+      </section>
+
+      <section id="messages-section">
+        <h2>Messages récents</h2>
+        <ul id="message-list">
+          <!-- Les messages seront chargés ici par JS -->
+        </ul>
+      </section>
+
+      <section id="post-section">
+        <h2>Poster un nouveau message</h2>
+        <div class="input-group">
+          <input type="text" id="pseudo-input" placeholder="Votre pseudo">
+          <textarea id="message-input" placeholder="Tapez votre message ici..."></textarea>
+          <button id="send-button">Envoyer le message</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
