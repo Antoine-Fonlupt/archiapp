@@ -21,7 +21,7 @@ function applique(f, tab) {
 console.log("Applique fact sur [1,2,3,4,5,6] :", applique(fact, [1, 2, 3, 4, 5, 6]));
 console.log("Applique anonyme (n+1) :", applique(function (n) { return n + 1; }, [1, 2, 3, 4, 5, 6]));
 
-let serverBaseUrl = "https://tp3-back.onrender.com/"; // Pour le lancement en local avec docker compose, changer en "http://localhost:5000";
+let serverBaseUrl = "https://archiapp-ofb2.onrender.com"; // Pour le lancement en local avec docker compose, changer en "http://localhost:5000";
 
 // Affichage des messages
 function update(messages) {
