@@ -36,8 +36,19 @@
       <section id="post-section">
         <h2>Poster un nouveau message</h2>
         <div class="input-group">
-          <input type="text" id="pseudo-input" placeholder="Votre pseudo">
-          <textarea id="message-input" placeholder="Tapez votre message ici..."></textarea>
+          <label for="pseudo-input" class="sr-only">Pseudo</label>
+          <input
+            type="text"
+            id="pseudo-input"
+            placeholder="Votre pseudo"
+          >
+
+          <label for="message-input" class="sr-only">Contenu du message</label>
+          <textarea
+            id="message-input"
+            placeholder="Tapez votre message ici..."
+          ></textarea>
+
           <button id="send-button">Envoyer le message</button>
         </div>
       </section>
