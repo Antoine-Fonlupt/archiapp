@@ -13,3 +13,7 @@ L'application est visible ici : https://archiapp-front-eu30.onrender.com/.
 Un délai d'initialisation peut être nécessaire le temps que les machines de render démarrent. En particulier, une erreur peut s'affichier dans le front le temps que le backend s'initialise. Il suffit d'attendre 30 à 40s pour que le site soit 100% fonctionnel.
 
 Le backend peut être contacté ici : https://archiapp-front-eu30.onrender.com/
+
+## Compatibilité
+
+Le frontend est compatible avec tout backend respectant les spécifications du TP. Pour des raisons de facilité de test, un champ textuel a été ajouté dans le frontend pour modifier cette valeur en direct et tester différents backend.
