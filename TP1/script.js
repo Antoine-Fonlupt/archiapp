@@ -36,12 +36,18 @@ function update(messages) {
         const date = item.date || "";
 
         li.innerHTML = `
-            <div class="msg-header">
-                <strong>${author}</strong>
-                <span class="date">${date}</span>
-            </div>
-            <div class="msg-content">${text}</div>
-            <button class="delete-btn" data-index="${index}">🗑️</button>
+            <div class="msg-container">
+                <div class="msg-body">
+                    <div class="msg-header">
+                        <strong>${author}</strong>
+                        <span class="date">${date}</span>
+                    </div>
+                    <div class="msg-content">${text}</div>
+                </div>
+                <button class="delete-btn" data-index="${index}">
+                    🗑
+                </button>
+           </div>
         `;
         list.appendChild(li);
     });
