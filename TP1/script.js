@@ -28,7 +28,7 @@ function update(messages) {
     const list = document.getElementById("message-list");
     list.innerHTML = "";
 
-    messages.forEach(function(item) {
+    messages.forEach(function(item, index) {
         const li = document.createElement("li");
 
         const author = item.author || "Anonyme";
@@ -41,8 +41,16 @@ function update(messages) {
                 <span class="date">${date}</span>
             </div>
             <div class="msg-content">${text}</div>
+            <button class="delete-btn" data-index="${index}">🗑️</button>
         `;
         list.appendChild(li);
+    });
+
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const index = this.getAttribute("data-index");
+            deleteMessage(index);
+        });
     });
 }
 
@@ -103,6 +111,26 @@ function postMessage() {
         .catch(function(error) {
             console.error("Erreur lors de l'envoi :", error);
             alert("Impossible d'envoyer le message.");
+        });
+}
+
+function deleteMessage(index) {
+    const url = serverBaseUrl + "/msg/del/" + index;
+
+    fetch(url)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.code === 1) {
+                loadMessages(); // refresh
+            } else {
+                alert("Erreur lors de la suppression.");
+            }
+        })
+        .catch(function(error) {
+            console.error("Erreur suppression :", error);
+            alert("Impossible de supprimer le message.");
         });
 }
 
