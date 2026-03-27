@@ -1,18 +1,17 @@
 services:
   - type: web
     name: tp3-back
-    runtime: docker
-    dockerfilePath: ./TP3/Dockerfile
-    dockerContext: ./TP3
+    runtime: node
+    rootDir: TP3
     plan: free
+    buildCommand: npm install
+    startCommand: node index.js
     envVars:
       - key: PORT
         value: 5000
 
-  - type: web
+  - type: static
     name: tp1-front
-    runtime: static
-    rootDir: ./TP1
+    rootDir: TP1
     buildCommand: ""
     staticPublishPath: .
-    plan: free
